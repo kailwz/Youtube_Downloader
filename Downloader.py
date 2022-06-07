@@ -1,7 +1,7 @@
 from tkinter import *
 from pytube import YouTube, streams
-from urllib.request import urlopen
-from PIL import ImageTk, Image
+import requests
+import time
 import os
 
 class window ():
@@ -27,6 +27,7 @@ class window ():
         self.root.mainloop()
 
     def windowConfigurations (self):
+        
         ###Configurations of the window###
         self.root.config(bg = '#101010')
         img = PhotoImage(file = 'logo.png')
@@ -158,16 +159,18 @@ class window ():
         url = self.searchVideoEntry.get()
         youtube = YouTube(url)
 
-        title = youtube.title
-        time = youtube.length
+        video_title = youtube.title
+        video_time = str(time.strftime('%H:%M:%S', time.gmtime(int(youtube.length))))
+        
+        """
+        link = requests.get(youtube.thumbnail_url)
+        name = 'video_thumb.png'
 
-        link = youtube.thumbnail_url
-
-        url = urlopen(link)
-        raw_data = url.read()
-        url.close()
-
-        photo = ImageTk.PhotoImage(data = raw_data)
+        with open('video_thumb.png', 'wb') as thumbnail:
+            thumbnail.write(link.content)
+        """
+        
+        photo = PhotoImage(file = 'logo.png')
 
         #**********SECOND FRAME THINGS**********#
         ###Show the thumbnail of the video label###
@@ -185,7 +188,7 @@ class window ():
         ###Video name label###
         self.videoNameLabel = Label(
             self.secondFrame,
-            text = title,
+            text = video_title,
             bg = '#151515',
             fg = 'whitesmoke',
             font = 'helvetica 10'
@@ -198,7 +201,7 @@ class window ():
         ###Video duration label###
         self.videoDurationLabel = Label(
             self.secondFrame,
-            text = f'Size: {time}',
+            text = f'Time: {video_time}',
             bg = '#151515',
             fg = 'whitesmoke',
             font = 'helvetica 10'
