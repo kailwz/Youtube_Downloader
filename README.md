@@ -8,7 +8,7 @@ Simple youtube downloader application.
   <li>Watch your video!</li>
 </ul>
 
-<img src="/main/Media/main.png"/>
+<img src="Media/main.png"/>
 
 <h2>Prerequisites</h2>
 <ul>
