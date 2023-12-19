@@ -1,8 +1,9 @@
 from tkinter import *
 from pytube import YouTube, streams
+from PIL import Image, ImageTk
+import os, os.path
 import requests
 import time
-import os
 
 class window ():
     def __init__(self):
@@ -156,20 +157,20 @@ class window ():
 
     def videoInfoLabels(self):
 
+        directory = self.searchDirectoryEntry.get()
         url = self.searchVideoEntry.get()
         youtube = YouTube(url)
 
         video_title = youtube.title
         video_time = str(time.strftime('%H:%M:%S', time.gmtime(int(youtube.length))))
-        
-        """
-        link = requests.get(youtube.thumbnail_url)
-        name = 'video_thumb.png'
 
-        with open('video_thumb.png', 'wb') as thumbnail:
-            thumbnail.write(link.content)
         """
-        
+            data = requests.get(youtube.thumbnail_url).content
+
+            with open('file01.jpg','wb') as file:
+                file.write(data)
+        """
+
         photo = PhotoImage(file = 'logo.png')
 
         #**********SECOND FRAME THINGS**********#
@@ -230,7 +231,7 @@ class window ():
             width = 25,
             font = 'helvetica 15'
         )
-        self.searchDirectoryEntry.insert(0, 'C:/Users/Área de Trabalho')
+        self.searchDirectoryEntry.insert(0, '/home/filipe/Downloads/')
         self.searchDirectoryEntry.place(
             x = 80,
             y = 135
