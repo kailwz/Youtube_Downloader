@@ -1,5 +1,6 @@
 from tkinter import *
-from pytube import YouTube, streams
+from pytubefix import YouTube, streams
+from pytubefix.cli import on_progress
 from PIL import Image, ImageTk
 import os, os.path
 import requests
@@ -300,7 +301,7 @@ class window ():
         url = self.searchVideoEntry.get()
         directory = self.searchDirectoryEntry.get()
 
-        youtube = YouTube(url)
+        youtube = YouTube(url, on_progress_callback = on_progress)
         stream = youtube.streams.get_highest_resolution()
         stream.download(output_path=directory)
 
@@ -308,7 +309,7 @@ class window ():
         url = self.searchVideoEntry.get()
         directory = self.searchDirectoryEntry.get()
 
-        youtube = YouTube(url)
+        youtube = YouTube(url, on_progress_callback = on_progress)
         stream = youtube.streams.get_lowest_resolution()
         stream.download(output_path=directory)
 
@@ -316,12 +317,8 @@ class window ():
         url = self.searchVideoEntry.get()
         directory = self.searchDirectoryEntry.get()
 
-        youtube = YouTube(url)
-        stream = youtube.streams.filter(only_audio=True).first()
-        download = stream.download(output_path=directory)
-
-        base, ext = os.path.splitext(download)
-        new_file = base + '.mp3'
-        os.rename(download, new_file)
+        youtube = YouTube(url, on_progress_callback = on_progress)
+        stream = youtube.streams.get_audio_only()
+        stream = stream.download(output_path=directory)
 
 loadWindow = window()
